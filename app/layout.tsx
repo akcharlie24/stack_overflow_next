@@ -1,8 +1,9 @@
 import { ClerkProvider } from "@clerk/nextjs";
 import { Metadata } from "next";
-import { Inter, Space_Grotesk as spaceGroteskk } from "next/font/google"; // needed to write because of those camel case errors
+import { Inter, Space_Grotesk as spaceGroteskk } from "next/font/google"; // needed to write because of those camel case errors by eslint
 import React from "react";
 import "@/styles/globals.css";
+import { ThemeProvider } from "@/context/ThemeProvider";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -31,13 +32,22 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <ClerkProvider>
-      <html lang="en">
-        <h1 className="h1-bold">This is a text </h1>
-        <body className={`${inter.variable} ${spaceGrotesk.variable}`}>
-          {children}{" "}
-        </body>
-      </html>
-    </ClerkProvider>
+    <html lang="en">
+      <body className={`${inter.variable} ${spaceGrotesk.variable}`}>
+        <ThemeProvider>
+          <ClerkProvider
+            appearance={{
+              elements: {
+                formButtonPrimary: "primary-gradient",
+                footerActionLink:
+                  "primary-text-gradient hover: text-primary-500",
+              },
+            }}
+          >
+            {children}
+          </ClerkProvider>
+        </ThemeProvider>
+      </body>
+    </html>
   );
 }
