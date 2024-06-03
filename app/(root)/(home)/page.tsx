@@ -13,16 +13,16 @@ const questions = [
     _id: 1,
     title: "What is the difference between React and Vue.js?",
     tags: [
-      { _id: 1, name: "javascript" },
-      { _id: 2, name: "frontend" },
+      { _id: "1", name: "javascript" },
+      { _id: "2", name: "frontend" },
     ],
     author: {
       _id: 123,
       name: "John Doe",
       picture: "https://example.com/profile_pictures/john_doe.jpg", // Replace with actual image URL
     },
-    upvotes: 25,
-    views: 1000,
+    upvotes: 250000,
+    views: 10000000,
     answers: [
       {
         _id: 456,
@@ -42,8 +42,8 @@ const questions = [
     _id: 2,
     title: "How do I implement routing in a React application?",
     tags: [
-      { _id: 3, name: "react" },
-      { _id: 4, name: "routing" },
+      { _id: "3", name: "react" },
+      { _id: "4", name: "routing" },
     ],
     author: {
       _id: 456,
@@ -59,9 +59,9 @@ const questions = [
     _id: 3,
     title: "What are the best practices for state management in React?",
     tags: [
-      { _id: 1, name: "javascript" },
-      { _id: 5, name: "react" },
-      { _id: 6, name: "state" },
+      { _id: "1", name: "javascript" },
+      { _id: "5", name: "react" },
+      { _id: "6", name: "state" },
     ],
     author: {
       _id: 789,
@@ -77,9 +77,9 @@ const questions = [
     _id: 4,
     title: "Explain the concept of functional components in React.",
     tags: [
-      { _id: 1, name: "javascript" },
-      { _id: 5, name: "react" },
-      { _id: 7, name: "components" },
+      { _id: "1", name: "javascript" },
+      { _id: "5", name: "react" },
+      { _id: "7", name: "components" },
     ],
     author: {
       _id: 1011,

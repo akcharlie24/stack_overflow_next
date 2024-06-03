@@ -12,11 +12,11 @@ const RightSideBar = () => {
     { _id: 5, title: "How was the uninverse created " },
   ];
   const popularTags = [
-    { _id: 1, name: "Javascript", totalQuestions: 5 },
-    { _id: 2, name: "Typescript", totalQuestions: 2 },
-    { _id: 3, name: "React", totalQuestions: 10 },
-    { _id: 4, name: "Next", totalQuestions: 1 },
-    { _id: 5, name: "Mongoose", totalQuestions: 4 },
+    { _id: "1", name: "Javascript", totalQuestions: 5 },
+    { _id: "2", name: "Typescript", totalQuestions: 2 },
+    { _id: "3", name: "React", totalQuestions: 10 },
+    { _id: "4", name: "Next", totalQuestions: 1 },
+    { _id: "5", name: "Mongoose", totalQuestions: 4 },
   ];
   return (
     <section
