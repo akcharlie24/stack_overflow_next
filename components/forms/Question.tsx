@@ -43,7 +43,9 @@ const Question = () => {
 
     try {
       // connect to backend
-      await createQuestion({});
+      await createQuestion({
+        title: values.title,
+      });
     } catch (error) {
       console.log(error);
     } finally {
