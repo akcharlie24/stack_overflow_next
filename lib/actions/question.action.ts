@@ -2,6 +2,7 @@
 
 import Question from "@/database/question.model";
 import { connectToDatabase } from "../mongoose";
+import Tag from "@/database/tag.model";
 
 export async function createQuestion(params: any) {
   // eslint-disable-next-line no-empty
@@ -11,7 +12,7 @@ export async function createQuestion(params: any) {
     const { title, content, tags, author, path } = params;
 
     // Create a Question
-    const question = Question.create({
+    const question = await Question.create({
       title,
       content,
       author,
@@ -20,7 +21,7 @@ export async function createQuestion(params: any) {
     const tagDocuments = [];
 
     for (const tag of tags) {
-      const existingTag = await Question.findOneAndUpdate(
+      const existingTag = await Tag.findOneAndUpdate(
         { name: { $regex: new RegExp(`^${tag}$`, "i") } },
         { $setOnInsert: { name: tag }, $push: { questions: question._id } },
         { upsert: true, new: true },
@@ -32,6 +33,10 @@ export async function createQuestion(params: any) {
     await Question.findByIdAndUpdate(question._id, {
       $push: { tags: { $each: tagDocuments } },
     });
+
+    // Create an interaction record for the user's ask_question action
+
+    // Increment author's reputation by +5 for asking a question
   } catch (error) {
     console.log(error);
   }
