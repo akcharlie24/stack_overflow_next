@@ -38,7 +38,7 @@ const QuestionCard = ({
             </h3>
           </Link>
         </div>
-        {/* TODO If signed in add edit delete actions */}
+        {/* TODO: If signed in add edit delete actions */}
       </div>
       <div className="mt-3.5 flex flex-wrap gap-2">
         {tags.map((tag) => (
@@ -47,8 +47,8 @@ const QuestionCard = ({
       </div>
       <div className="flex-between mt-6 w-full flex-wrap gap-3">
         <Metric
-          imgUrl="/assets/icons/avatar.svg"
-          alt="Upvotes"
+          imgUrl={author.picture}
+          alt="User"
           value={author.name}
           title={` - asked ${getTimeStamp(createdAt)}`}
           href={`/profile/${author._id}`}
