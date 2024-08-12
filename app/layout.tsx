@@ -3,6 +3,7 @@ import { Metadata } from "next";
 import { Inter, Space_Grotesk as spaceGroteskk } from "next/font/google"; // needed to write because of those camel case errors by eslint
 import React from "react";
 import "@/styles/globals.css";
+import "@/styles/prism.css";
 import { ThemeProvider } from "@/context/ThemeProvider";
 
 const inter = Inter({
