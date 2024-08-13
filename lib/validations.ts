@@ -6,7 +6,7 @@ export const QuestionSchema = z.object({
   tags: z.array(z.string().min(1).max(20)).min(1).max(3),
 });
 
-export const AnswerSchma = z.object({
+export const AnswerSchema = z.object({
   answer: z.string().min(100),
 });
 
