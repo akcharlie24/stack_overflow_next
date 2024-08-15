@@ -40,6 +40,7 @@ export const getTimeStamp = (createdAt: Date): string => {
 };
 
 // below function is a great example of how we deal with the UI while scaling of applications
+
 export const formatAndDivideNumber = (inputNumber: number): string => {
   if (inputNumber >= 1000000) {
     return (inputNumber / 1000000).toFixed(1) + "M";

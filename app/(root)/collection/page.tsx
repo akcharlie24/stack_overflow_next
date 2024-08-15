@@ -7,6 +7,7 @@ import { auth } from "@clerk/nextjs/server";
 import Filter from "@/components/shared/Filter";
 import NoResult from "@/components/shared/NoResult";
 import LocalSearch from "@/components/shared/search/LocalSearch";
+import { getSavedQuestions } from "@/lib/actions/user.action";
 
 export const metadata: Metadata = {
   title: "Collections | Dev Overflow",
