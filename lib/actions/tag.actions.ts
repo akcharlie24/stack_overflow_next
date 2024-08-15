@@ -2,8 +2,14 @@
 
 import User from "@/database/user.model";
 import { connectToDatabase } from "../mongoose";
-import { GetAllTagsParams, GetTopInteractedTagsParams } from "./shared.types";
-import Tag from "@/database/tag.model";
+import {
+  GetAllTagsParams,
+  GetQuestionsByTagIdParams,
+  GetTopInteractedTagsParams,
+} from "./shared.types";
+import Tag, { ITag } from "@/database/tag.model";
+import { FilterQuery } from "mongoose";
+import Question from "@/database/question.model";
 
 export const getTopInteractedTags = async (
   params: GetTopInteractedTagsParams,
@@ -55,6 +61,73 @@ export const getAllTags = async (params: GetAllTagsParams) => {
     const tags = await Tag.find({});
 
     return { tags };
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+};
+
+export const getQuestionsByTagId = async (
+  params: GetQuestionsByTagIdParams,
+) => {
+  try {
+    connectToDatabase();
+    const { tagId, searchQuery, page = 1, pageSize = 1 } = params;
+
+    // paginaion:
+    const skipAmount = (page - 1) * pageSize;
+
+    const tagFilter: FilterQuery<ITag> = { _id: tagId };
+
+    if (searchQuery) {
+      tagFilter.$or = [{ $regex: searchQuery, $options: "i" }];
+    }
+
+    const tag = await Tag.findOne(tagFilter).populate({
+      path: "questions",
+      model: Question,
+      match: searchQuery
+        ? { title: { $regex: searchQuery, $options: "i" } }
+        : {},
+      options: {
+        skip: skipAmount,
+        limit: pageSize + 1,
+        sort: { createdAt: -1 },
+      },
+      populate: [
+        { path: "tags", model: Tag, select: "_id name" },
+        { path: "author", model: User, select: "_id clerkId name picture" },
+      ],
+    });
+
+    if (!tag) {
+      throw new Error("Tag not found");
+    }
+
+    const questions = tag.questions;
+
+    const isNext = questions.length > pageSize;
+
+    return { tagTitle: tag.name, questions, isNext };
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+};
+
+export const getTopPopularTags = async () => {
+  try {
+    connectToDatabase();
+
+    const popularTags = await Tag.aggregate([
+      {
+        $project: { name: 1, numberOfQuestions: { $size: "$questions" } },
+      },
+      { $sort: { numberOfQuestions: -1 } },
+      { $limit: 10 },
+    ]);
+
+    return popularTags;
   } catch (error) {
     console.log(error);
     throw error;
