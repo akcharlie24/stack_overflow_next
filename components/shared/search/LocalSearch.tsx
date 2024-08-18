@@ -2,6 +2,7 @@
 
 import { Input } from "@/components/ui/input";
 import Image from "next/image";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import React from "react";
 
 interface CustomInputProps {
@@ -19,6 +20,10 @@ const LocalSearch = ({
   placeholder,
   otherClasses,
 }: CustomInputProps) => {
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+
   return (
     <div
       className={`background-light800_darkgradient flex min-h-[56px] grow items-center gap-4 rounded-[10px] px-4 ${otherClasses}`}

@@ -2,22 +2,13 @@ import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 import RenderTag from "./RenderTag";
+import { getHotQuestions } from "@/lib/actions/question.action";
+import { getTopPopularTags } from "@/lib/actions/tag.actions";
 
-const RightSideBar = () => {
-  const hotQn = [
-    { _id: 1, title: "How was the uninverse created " },
-    { _id: 2, title: "Did Egg came first or hen " },
-    { _id: 3, title: "How was the uninverse created " },
-    { _id: 4, title: "What is the use of next js " },
-    { _id: 5, title: "How was the uninverse created " },
-  ];
-  const popularTags = [
-    { _id: "1", name: "Javascript", totalQuestions: 5 },
-    { _id: "2", name: "Typescript", totalQuestions: 2 },
-    { _id: "3", name: "React", totalQuestions: 10 },
-    { _id: "4", name: "Next", totalQuestions: 1 },
-    { _id: "5", name: "Mongoose", totalQuestions: 4 },
-  ];
+const RightSideBar = async () => {
+  const hotQuestions = await getHotQuestions();
+  const popularTags = await getTopPopularTags();
+
   return (
     <section
       className="background-light900_dark200 light-border
@@ -27,10 +18,10 @@ const RightSideBar = () => {
       <div>
         <h3 className="h2-bold text-dark200_light900">Top Questions</h3>
         <div className="mt-7 flex w-full flex-col gap-[30px]">
-          {hotQn.map((question) => {
+          {hotQuestions.map((question) => {
             return (
               <Link
-                href={`/questions/${question._id}`}
+                href={`/question/${question._id}`}
                 key={question._id}
                 className="flex cursor-pointer items-center justify-between gap-7"
               >
@@ -58,7 +49,7 @@ const RightSideBar = () => {
                 key={tag._id}
                 _id={tag._id}
                 name={tag.name}
-                totalQuestions={tag.totalQuestions}
+                totalQuestions={tag.numberOfQuestions}
                 showCount
               />
             );

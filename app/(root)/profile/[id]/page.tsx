@@ -1,6 +1,5 @@
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-
 import { getUserInfo } from "@/lib/actions/user.action";
 import { getJoinedDate } from "@/lib/utils";
 import { URLProps } from "@/types";
@@ -41,10 +40,10 @@ const ProfileDetails = async ({ params, searchParams }: URLProps) => {
               @{user.username}
             </p>
             <div className="mt-5 flex flex-wrap items-center justify-start gap-5">
-              {user.portfoliowebsite && (
+              {user.portfolioWebsite && (
                 <ProfileLink
                   imgUrl="/assets/icons/link.svg"
-                  href={user.portfoliowebsite}
+                  href={user.portfolioWebsite}
                   title="Portfolio"
                 />
               )}

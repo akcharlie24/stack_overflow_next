@@ -17,7 +17,7 @@ const EditQuestion = async ({ params }: ParamsProps) => {
 
   const mongoUser = await getUserById({ userId });
 
-  const { question } = await getQuestionById({
+  const question = await getQuestionById({
     questionId: params.id,
   });
 

@@ -212,14 +212,14 @@ export const editQuestion = async (params: EditQuestionParams) => {
   }
 };
 
-export const getTopQuestions = async () => {
+export const getHotQuestions = async () => {
   try {
     connectToDatabase();
-    const topQuestions = await Question.find({})
+    const hotQuestions = await Question.find({})
       .sort({ views: -1, upvotes: -1 })
       .limit(5);
 
-    return topQuestions;
+    return hotQuestions;
   } catch (error) {
     console.log(error);
     throw error;
