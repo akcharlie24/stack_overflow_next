@@ -80,6 +80,7 @@ export const formUrlQuery = ({ params, key, value }: UrlQueryParams) => {
       url: window.location.pathname,
       query: currentUrl,
     },
+    // little checks and things make good code
     { skipNull: true },
   );
 };

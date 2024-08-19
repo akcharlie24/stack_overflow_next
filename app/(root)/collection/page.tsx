@@ -32,7 +32,7 @@ export default async function Collection({ searchParams }: SearchParamsProps) {
 
       <div className="mt-11 flex justify-between gap-5 max-sm:flex-col sm:items-center">
         <LocalSearch
-          route="/"
+          route="/collection"
           iconPosition="left"
           imgSrc="/assets/icons/search.svg"
           placeholder="Search for questions"
