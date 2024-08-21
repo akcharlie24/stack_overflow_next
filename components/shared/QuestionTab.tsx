@@ -1,5 +1,6 @@
 import QuestionCard from "@/components/cards/QuestionCard";
 import { getUserQuestions } from "@/lib/actions/user.action";
+import Pagination from "./Pagination";
 
 interface QuestionTabProps {
   userId: string;
@@ -12,7 +13,7 @@ const QuestionTab = async ({
   userId,
   clerkId,
 }: QuestionTabProps) => {
-  const { userQuestions } = await getUserQuestions({
+  const { userQuestions, isNext } = await getUserQuestions({
     userId,
     page: searchProps?.page ? +searchProps.page : 1,
   });
@@ -33,7 +34,12 @@ const QuestionTab = async ({
           createdAt={question.createdAt}
         />
       ))}
-      <div className="mt-10">Pagination</div>
+      <div className="mt-10">
+        <Pagination
+          pageNumber={searchProps?.page ? +searchProps.page : 1}
+          isNext={isNext}
+        />
+      </div>
     </>
   );
 };

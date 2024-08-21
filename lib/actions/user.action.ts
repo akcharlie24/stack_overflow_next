@@ -101,7 +101,9 @@ export async function getAllUsers(params: GetAllUsersParams) {
   try {
     connectToDatabase();
 
-    const { searchQuery, filter } = params;
+    const { searchQuery, filter, page = 1, pageSize = 4 } = params;
+
+    const skipAmount = (page - 1) * pageSize;
 
     const query: FilterQuery<typeof User> = {};
 
@@ -130,9 +132,16 @@ export async function getAllUsers(params: GetAllUsersParams) {
       ];
     }
 
-    const users = await User.find(query).sort(sortOptions);
+    const users = await User.find(query)
+      .skip(skipAmount)
+      .limit(pageSize)
+      .sort(sortOptions);
 
-    return { users };
+    const totalUsers = await User.countDocuments(query);
+
+    const isNext = totalUsers > skipAmount + users.length;
+
+    return { users, isNext };
   } catch (error) {
     console.log(error);
     throw error;
@@ -182,7 +191,7 @@ export const toggleSaveQuestion = async (params: ToggleSaveQuestionParams) => {
 export const getSavedQuestions = async (params: GetSavedQuestionsParams) => {
   try {
     connectToDatabase();
-    const { clerkId, page = 1, pageSize = 10, filter, searchQuery } = params;
+    const { clerkId, page = 1, pageSize = 2, filter, searchQuery } = params;
 
     // pagination
     const skipAmount = (page - 1) * pageSize;
@@ -214,6 +223,7 @@ export const getSavedQuestions = async (params: GetSavedQuestionsParams) => {
         break;
     }
 
+    // FIX: Some issue in the pageSize and last document repeating itself
     const user = await User.findOne({ clerkId }).populate({
       path: "saved",
       match: query,
@@ -337,7 +347,7 @@ export const getUserInfo = async (params: GetUserByIdParams) => {
 export const getUserQuestions = async (params: GetUserStatsParams) => {
   try {
     connectToDatabase();
-    const { userId, page = 1, pageSize = 10 } = params;
+    const { userId, page = 1, pageSize = 2 } = params;
     // pagination
 
     const skipAmount = (page - 1) * pageSize;
@@ -355,18 +365,19 @@ export const getUserQuestions = async (params: GetUserStatsParams) => {
       .populate("tags", "_id name")
       .populate("author", "_id clerkId name picture");
 
-    const isNextQuestion = totalQuestions > skipAmount + userQuestions.length;
+    const isNext = totalQuestions > skipAmount + userQuestions.length;
 
-    return { totalQuestions, userQuestions, isNextQuestion };
+    return { totalQuestions, userQuestions, isNext };
   } catch (error) {
     console.log(error);
     throw error;
   }
 };
+
 export const getUserAnswers = async (params: GetUserStatsParams) => {
   try {
     connectToDatabase();
-    const { userId, page = 1, pageSize = 10 } = params;
+    const { userId, page = 1, pageSize = 2 } = params;
     const skipAmount = (page - 1) * pageSize;
 
     const totalAnswers = await Answer.countDocuments({ author: userId });
@@ -380,9 +391,9 @@ export const getUserAnswers = async (params: GetUserStatsParams) => {
       .populate("question", "_id title")
       .populate("author", "_id clerkId name picture");
 
-    const isNextAnswer = totalAnswers > skipAmount + userAnswers.length;
+    const isNext = totalAnswers > skipAmount + userAnswers.length;
 
-    return { totalAnswers, userAnswers, isNextAnswer };
+    return { totalAnswers, userAnswers, isNext };
   } catch (error) {
     console.log(error);
     throw error;

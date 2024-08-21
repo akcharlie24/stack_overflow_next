@@ -1,5 +1,6 @@
 import AnswerCard from "@/components/cards/AnswerCard";
 import { getUserAnswers } from "@/lib/actions/user.action";
+import Pagination from "./Pagination";
 
 interface AnswersTabProps {
   userId: string;
@@ -12,7 +13,7 @@ const AnswersTab = async ({
   userId,
   clerkId,
 }: AnswersTabProps) => {
-  const { userAnswers, isNextAnswer } = await getUserAnswers({
+  const { userAnswers, isNext } = await getUserAnswers({
     userId,
     page: searchProps?.page ? +searchProps?.page : 1,
   });
@@ -33,7 +34,12 @@ const AnswersTab = async ({
         />
       ))}
 
-      <div className="mt-10">Pagination</div>
+      <div className="mt-10">
+        <Pagination
+          pageNumber={searchProps?.page ? +searchProps.page : 1}
+          isNext={isNext}
+        />
+      </div>
     </>
   );
 };

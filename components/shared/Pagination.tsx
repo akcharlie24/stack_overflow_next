@@ -12,6 +12,7 @@ interface Props {
 const Pagination = ({ pageNumber, isNext }: Props) => {
   const searchParams = useSearchParams();
   const router = useRouter();
+
   const handleNavigation = (direction: string) => {
     const nextPageNo = direction === "prev" ? pageNumber - 1 : pageNumber + 1;
 
@@ -22,6 +23,9 @@ const Pagination = ({ pageNumber, isNext }: Props) => {
     });
     router.push(newUrl);
   };
+
+  if (!isNext && pageNumber === 1) return null;
+
   return (
     <div className="flex w-full items-center justify-center gap-2">
       <Button

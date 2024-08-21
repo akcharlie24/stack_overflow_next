@@ -8,6 +8,7 @@ import Filter from "@/components/shared/Filter";
 import NoResult from "@/components/shared/NoResult";
 import LocalSearch from "@/components/shared/search/LocalSearch";
 import { getSavedQuestions } from "@/lib/actions/user.action";
+import Pagination from "@/components/shared/Pagination";
 
 export const metadata: Metadata = {
   title: "Collections | Dev Overflow",
@@ -71,7 +72,12 @@ export default async function Collection({ searchParams }: SearchParamsProps) {
           />
         )}
       </div>
-      <div className="mt-10">Pagination</div>
+      <div className="mt-10">
+        <Pagination
+          pageNumber={searchParams?.page ? +searchParams.page : 1}
+          isNext={isNext}
+        />
+      </div>
     </>
   );
 }
